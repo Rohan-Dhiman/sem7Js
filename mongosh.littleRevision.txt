@@ -1,0 +1,103 @@
+Windows PowerShell
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Install the latest PowerShell for new features and improvements! https://aka.ms/PSWindows
+
+PS C:\Users\HP> mongosh
+Current Mongosh Log ID: 6881cfe2f203bab33fc4e49a
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.12
+Using MongoDB:          7.0.12
+Using Mongosh:          2.2.12
+mongosh 2.5.6 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-07-09T18:02:47.286+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test> show db
+MongoshInvalidInputError: [COMMON-10001] 'db' is not a valid argument for "show".
+test> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   96.00 KiB
+voting  16.00 KiB
+test> use newDb
+switched to db newDb
+newDb> show collections
+
+newDb> db
+newDb
+newDb> newdb.createCollection("students")
+ReferenceError: newdb is not defined
+newDb> createCollection("students")
+ReferenceError: createCollection is not defined
+newDb> db.createCollection("students)
+Uncaught:
+SyntaxError: Unterminated string constant. (1:20)
+
+> 1 | db.createCollection("students)
+    |                     ^
+  2 |
+
+newDb> db.createCollection("students);
+Uncaught:
+SyntaxError: Unterminated string constant. (1:20)
+
+> 1 | db.createCollection("students);
+    |                     ^
+  2 |
+
+newDb> db.createCollection("students");
+{ ok: 1 }
+newDb> db.students.insertOne({name: "Mark"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6881d500f203bab33fc4e49b')
+}
+newDb> db.students.insertmMany({name: "Mark"}, {name: "Rohan"})
+TypeError: db.students.insertmMany is not a function
+newDb> db.students.insertMany({name: "Mark"}, {name: "Rohan"})
+MongoInvalidArgumentError: Argument "docs" must be an array of documents
+newDb> db.students.insertMany([{name: "Mark"}, {name: "Rohan"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('6881d542f203bab33fc4e49c'),
+    '1': ObjectId('6881d542f203bab33fc4e49d')
+  }
+}
+newDb> db.students.insertOne({date: ISODate()})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6881d5a4f203bab33fc4e49e')
+}
+newDb> db.students.findOne()
+{ _id: ObjectId('6881d500f203bab33fc4e49b'), name: 'Mark' }
+newDb> db.students.find()
+[
+  { _id: ObjectId('6881d500f203bab33fc4e49b'), name: 'Mark' },
+  { _id: ObjectId('6881d542f203bab33fc4e49c'), name: 'Mark' },
+  { _id: ObjectId('6881d542f203bab33fc4e49d'), name: 'Rohan' },
+  {
+    _id: ObjectId('6881d5a4f203bab33fc4e49e'),
+    date: ISODate('2025-07-24T06:41:40.424Z')
+  }
+]
+newDb> db.students.find().pretty()
+[
+  { _id: ObjectId('6881d500f203bab33fc4e49b'), name: 'Mark' },
+  { _id: ObjectId('6881d542f203bab33fc4e49c'), name: 'Mark' },
+  { _id: ObjectId('6881d542f203bab33fc4e49d'), name: 'Rohan' },
+  {
+    _id: ObjectId('6881d5a4f203bab33fc4e49e'),
+    date: ISODate('2025-07-24T06:41:40.424Z')
+  }
+]
+newDb> db.students.distinct("name")
+[ 'Mark', 'Rohan' ]
+newDb> db.students.countDocuments()
+4
+newDb>
